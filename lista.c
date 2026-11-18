@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+
 #define TAM_MAX 50000
 
 typedef struct lista
@@ -153,6 +154,7 @@ int remover(int posicao)
 int main(int argc, char *argv[])
 {
     inicializar();
+    srand(time(NULL));
     int opcao, temp, posicao;
     double start, finish, elapsed;
     int quantidade;
@@ -180,6 +182,7 @@ int main(int argc, char *argv[])
             {
                 int p = obterDado(quantidade);
                 inserir(p, i);
+                exibirDado(l.vetor[i]);
             }
             finish = (double)clock();
             elapsed = finish - start;
@@ -188,17 +191,17 @@ int main(int argc, char *argv[])
         case 2:
             start = (double)clock();
             for (int i = 0; i < quantidade; i++){
-                int p = obterDado(quantidade);
-                remover(i);
+                temp = remover(i);
+                exibirDado(temp);
             }
             finish = (double)clock();
             elapsed = finish - start;
             printf("\nForam utilizados %.2f clocks", elapsed);
             break;
         case 3:
-             start = (double)clock();
+            start = (double)clock();
             for (int i = 0; i < quantidade; i++){
-                exibirDado(i);
+                obterDado(l.vetor[i]);
             }
             finish = (double)clock();
             elapsed = finish - start;
@@ -206,7 +209,7 @@ int main(int argc, char *argv[])
             break;
         case 4:
             printf("\nSaindo do programa...");
-            return;
+            return 0;
         default:
             printf("\nEscolha uma opcao valida!");
         }
