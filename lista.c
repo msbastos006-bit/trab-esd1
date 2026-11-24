@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-
 #define TAM_MAX 50000
 
 typedef struct lista
@@ -118,37 +117,34 @@ void imprimir()
 
 int remover(int posicao)
 {
-    // verifica se a lista nao estah vazia
-    if (!verificarVazia())
+    // Verifica se a lista está vazia
+    if (verificarVazia())
     {
-        // verifica se existe elemento valido na posicao desejada
-        if (posicao <= l.final)
-        {
-            int i;
-            // define uma variavel auxiliar
-            int aux = 0;
-            // variavel auxiliar guarda o elemento da posicao
-            aux = l.vetor[posicao];
-            // transladar os elementos da posicao ate final - 1
-            for (i = posicao; i < l.final; i++)
-                l.vetor[i] = l.vetor[i + 1];
-            // atualiza o final da lista
-            l.final--;
-            // retorna elemento removido
-            return aux;
-        }
-        else
-        {
-            // se nao existe elemento na posicao, informa o usuario
-            printf("\nNao existe elemento na posicao indicada.");
-        }
-    }
-    else
-    {
-        // se lista vazia, informa o usuario
         printf("\nA lista estah vazia.");
+        return -1;
     }
-    return 0;
+
+    // Verifica se a posição é válida
+    if (posicao < 0 || posicao > l.final)
+    {
+        printf("\nPosicao invalida.");
+        return -1;
+    }
+
+    // Guarda o elemento que será removido
+    int aux = l.vetor[posicao];
+
+    // Desloca os elementos seguintes uma posição para a esquerda
+    for (int i = posicao; i < l.final; i++)
+    {
+        l.vetor[i] = l.vetor[i + 1];
+    }
+
+    // Atualiza o final da lista
+    l.final--;
+
+    // Retorna o elemento removido
+    return aux;
 }
 
 int main(int argc, char *argv[])
@@ -188,20 +184,35 @@ int main(int argc, char *argv[])
             elapsed = finish - start;
             printf("\nForam utilizados %.2f clocks", elapsed);
             break;
+
         case 2:
             start = (double)clock();
-            for (int i = 0; i < quantidade; i++){
-                temp = remover(i);
-                exibirDado(temp);
+
+            for (int i = 0; i < quantidade; i++)
+            {
+                if (!verificarVazia())
+                {
+                    temp = remover(0);
+                    exibirDado(temp);
+                }
+                else
+                {
+                    printf("\nA lista ficou vazia.");
+                    break;
+                }
             }
+
             finish = (double)clock();
             elapsed = finish - start;
+
             printf("\nForam utilizados %.2f clocks", elapsed);
             break;
+
         case 3:
             start = (double)clock();
-            for (int i = 0; i < quantidade; i++){
-                obterDado(l.vetor[i]);
+            for (int i = 0; i < quantidade; i++)
+            {
+                exibirDado(l.vetor[i]);
             }
             finish = (double)clock();
             elapsed = finish - start;
